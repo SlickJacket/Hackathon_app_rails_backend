@@ -1,19 +1,17 @@
-class SubscribersController < ApplicationController
+class Api::V1::SubscribersController < ApplicationController
+  skip_before_action :authorized
   before_action :set_subscriber, only: [:show, :update, :destroy]
 
-  # GET /subscribers
   def index
     @subscribers = Subscriber.all
 
     render json: @subscribers
   end
 
-  # GET /subscribers/1
   def show
     render json: @subscriber
   end
 
-  # POST /subscribers
   def create
     @subscriber = Subscriber.new(subscriber_params)
 
@@ -24,7 +22,6 @@ class SubscribersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /subscribers/1
   def update
     if @subscriber.update(subscriber_params)
       render json: @subscriber
@@ -33,18 +30,15 @@ class SubscribersController < ApplicationController
     end
   end
 
-  # DELETE /subscribers/1
   def destroy
     @subscriber.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_subscriber
       @subscriber = Subscriber.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def subscriber_params
       params.require(:subscriber).permit(:email)
     end
